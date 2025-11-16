@@ -1,0 +1,127 @@
+:root {
+  --page-bg: #f6f7fb;
+  --surface: #ffffff;
+  --text-color: #1f1f1f;
+  --text-secondary: #6b7280;
+  --primary: #2563eb;
+  --primary-soft: rgba(37, 99, 235, 0.08);
+  --border-color: rgba(15, 23, 42, 0.08);
+  --surface-shadow: 0 18px 32px -24px rgba(31, 41, 55, 0.4);
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+:root[data-theme='dark'] {
+  --page-bg: #0f172a;
+  --surface: #1e293b;
+  --text-color: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --primary: #60a5fa;
+  --primary-soft: rgba(96, 165, 250, 0.18);
+  --border-color: rgba(148, 163, 184, 0.35);
+  --surface-shadow: 0 18px 32px -24px rgba(0, 0, 0, 0.65);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--page-bg);
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+section {
+  margin-bottom: 2.5rem;
+}
+
+.surface-card {
+  background-color: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--surface-shadow);
+  border: 1px solid var(--border-color);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+}
+
+.section-title::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 28px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(37, 99, 235, 0.85), rgba(37, 99, 235, 0));
+}
+
+.grid-two-column {
+  display: grid;
+  grid-template-columns: 3fr 1.7fr;
+  gap: 2rem;
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+button.primary {
+  padding: 0.65rem 1.4rem;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+button.primary:hover {
+  transform: translateY(-1px);
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.8rem;
+  border-radius: 999px;
+  background-color: var(--primary-soft);
+  color: var(--primary);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 1024px) {
+  .grid-two-column {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  section {
+    margin-bottom: 1.8rem;
+  }
+
+  .surface-card {
+    border-radius: var(--radius-md);
+  }
+}
+

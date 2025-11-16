@@ -1,0 +1,22 @@
+package com.bluemsun.blog.common.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+/**
+ * 安全相关基础 Bean 配置。
+ */
+@Configuration
+public class SecurityBeanConfig {
+
+    /**
+     * BCrypt 密码加密器，用户密码统一加密存储。
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+}
+

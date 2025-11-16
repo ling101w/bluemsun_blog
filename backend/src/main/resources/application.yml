@@ -1,0 +1,77 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: bluemsun-blog
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/bluemsun_blog?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:changeme}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST:localhost}
+      port: ${SPRING_REDIS_PORT:6379}
+      database: 0
+      password: ${SPRING_REDIS_PASSWORD:}
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 50MB
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+  mail:
+    host: ${SPRING_MAIL_HOST:smtp.qq.com}
+    port: ${SPRING_MAIL_PORT:465}
+    username: ${SPRING_MAIL_USERNAME:}
+    password: ${SPRING_MAIL_PASSWORD:}
+    default-encoding: UTF-8
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.ssl.enable: true
+      mail.smtp.from: ${SPRING_MAIL_FROM:${SPRING_MAIL_USERNAME:}}
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  global-config:
+    db-config:
+      logic-delete-field: deleted
+      logic-not-delete-value: 0
+      logic-delete-value: 1
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+sa-token:
+  token-name: satoken
+  timeout: 86400
+  active-timeout: -1
+  token-style: uuid
+  is-concurrent: true
+  is-share: false
+  token-prefix: Bearer
+
+logging:
+  level:
+    com.bluemsun.blog: info
+    org.springframework.beans.factory.support: warn
+
+oss:
+  endpoint: "${OSS_ENDPOINT:oss-cn-beijing.aliyuncs.com}"
+  bucket: "${OSS_BUCKET:bluemsun-blog}"
+  access-key-id: ${OSS_ACCESS_KEY_ID:}
+  access-key-secret: ${OSS_ACCESS_KEY_SECRET:}
+  public-domain: "${OSS_PUBLIC_DOMAIN:}"
+  use-signed-url-for-paid: true
+  signed-url-expire-minutes: 10
+
+storage:
+  base-path: ./storage/uploads
+
+ai:
+  siliconflow:
+    api-key: ${AI_SILICONFLOW_API_KEY:}
+    base-url: ${AI_SILICONFLOW_BASE_URL:https://api.siliconflow.cn}
+    model: ${AI_SILICONFLOW_MODEL:deepseek-ai/DeepSeek-V3.1-Terminus}
+    timeout-ms: ${AI_SILICONFLOW_TIMEOUT_MS:15000}

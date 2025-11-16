@@ -1,0 +1,18 @@
+# IDE metadata
+.idea/
+.vscode/
+
+# Java build outputs
+backend/target/
+
+# Node / front-end artifacts
+frontend/node_modules/
+frontend/dist/
+
+# Local storage uploads
+storage/uploads/
+
+# Logs and OS noise
+*.log
+*.tmp
+.DS_Store

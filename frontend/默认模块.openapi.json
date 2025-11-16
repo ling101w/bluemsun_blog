@@ -1,0 +1,3561 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "默认模块",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [],
+  "paths": {
+    "/comments": {
+      "get": {
+        "summary": "前台评论列表（仅返回状态为 APPROVED 的评论，树形结构）。",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "articleId",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListCommentTreeVO"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": [
+                    {
+                      "id": 0,
+                      "userId": 0,
+                      "nickname": "",
+                      "avatar": "",
+                      "content": "",
+                      "createTime": "",
+                      "likeCount": 0,
+                      "children": [
+                        {
+                          "id": 0,
+                          "userId": 0,
+                          "nickname": "",
+                          "avatar": "",
+                          "content": "",
+                          "createTime": "",
+                          "likeCount": 0,
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "新增评论（要求登录）。",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentCreateDTO",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseLong"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": 0
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/comments/{id}/reply": {
+      "post": {
+        "summary": "回复某条评论（要求登录）。",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentReplyDTO",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseLong"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": 0
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/comments/{id}/like": {
+      "post": {
+        "summary": "点赞评论（要求登录）。",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseVoid"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/comments/emoji/preview": {
+      "put": {
+        "summary": "previewEmoji",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentEmojiDTO",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseString"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": ""
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/articles": {
+      "get": {
+        "summary": "page",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "pageNo",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseIPageArticleListVO"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": {
+                    "records": [
+                      {
+                        "id": 0,
+                        "title": "",
+                        "summary": "",
+                        "coverUrl": "",
+                        "type": "",
+                        "price": 0,
+                        "status": "",
+                        "publishTime": "",
+                        "viewCount": 0,
+                        "likeCount": 0,
+                        "pinned": false,
+                        "pinnedTime": ""
+                      }
+                    ],
+                    "total": 0,
+                    "size": 0,
+                    "current": 0,
+                    "orders": [
+                      {
+                        "column": "",
+                        "asc": false
+                      }
+                    ],
+                    "optimizeCountSql": false,
+                    "searchCount": false,
+                    "optimizeJoinOfCountSql": false,
+                    "maxLimit": 0,
+                    "countId": "",
+                    "pages": 0
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "创建文章：支持“保存草稿”与“直接发布”两种行为。",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArticleCreateDTO",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseLong"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": 0
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/articles/{id}": {
+      "get": {
+        "summary": "detail",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "draft",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "false",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseArticleDetailVO"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": {
+                    "id": 0,
+                    "authorId": 0,
+                    "title": "",
+                    "summary": "",
+                    "coverUrl": "",
+                    "categoryId": 0,
+                    "type": "",
+                    "price": 0,
+                    "status": "",
+                    "allowComment": false,
+                    "publishTime": "",
+                    "contentMd": "",
+                    "contentHtml": "",
+                    "attachments": "",
+                    "viewCount": 0,
+                    "likeCount": 0,
+                    "commentCount": 0,
+                    "locked": false,
+                    "purchased": false,
+                    "canManageAttachments": false,
+                    "owner": false,
+                    "pinned": false,
+                    "pinnedTime": ""
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "update",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArticleUpdateDTO",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseVoid"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "delete",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseVoid"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/articles/hot": {
+      "get": {
+        "summary": "hot",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": 10,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListArticleListVO"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": [
+                    {
+                      "id": 0,
+                      "title": "",
+                      "summary": "",
+                      "coverUrl": "",
+                      "type": "",
+                      "price": 0,
+                      "status": "",
+                      "publishTime": "",
+                      "viewCount": 0,
+                      "likeCount": 0,
+                      "pinned": false,
+                      "pinnedTime": ""
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/articles/announcement": {
+      "get": {
+        "summary": "announcement",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseArticleDetailVO"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": {
+                    "id": 0,
+                    "authorId": 0,
+                    "title": "",
+                    "summary": "",
+                    "coverUrl": "",
+                    "categoryId": 0,
+                    "type": "",
+                    "price": 0,
+                    "status": "",
+                    "allowComment": false,
+                    "publishTime": "",
+                    "contentMd": "",
+                    "contentHtml": "",
+                    "attachments": "",
+                    "viewCount": 0,
+                    "likeCount": 0,
+                    "commentCount": 0,
+                    "locked": false,
+                    "purchased": false,
+                    "canManageAttachments": false,
+                    "owner": false,
+                    "pinned": false,
+                    "pinnedTime": ""
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/articles/{id}/publish": {
+      "post": {
+        "summary": "publish",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseVoid"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/articles/{id}/view": {
+      "post": {
+        "summary": "increaseView",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseVoid"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/articles/{id}/like": {
+      "post": {
+        "summary": "like",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseVoid"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/articles/{articleId}/attachments": {
+      "post": {
+        "summary": "upload",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "articleId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "accessScope",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "PUBLIC",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "files": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "files"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListAttachmentSummary"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": [
+                    {
+                      "id": 0,
+                      "name": "",
+                      "url": "",
+                      "restrict": false,
+                      "size": 0
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/attachments/{attachmentId}": {
+      "get": {
+        "summary": "download",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "attachmentId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseEntityInputStreamResource"
+                },
+                "example": {
+                  "inputStream": {},
+                  "description": "",
+                  "read": false
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/orders": {
+      "post": {
+        "summary": "create",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderCreateDTO",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOrderVO"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": {
+                    "id": 0,
+                    "orderNo": "",
+                    "userId": 0,
+                    "articleId": 0,
+                    "amount": 0,
+                    "status": "",
+                    "payChannel": "",
+                    "payTime": "",
+                    "createTime": "",
+                    "expireTime": ""
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "get": {
+        "summary": "allOrders",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "pageNum",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": 1,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": 10,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseIPageOrderVO"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": {
+                    "records": [
+                      {
+                        "id": 0,
+                        "orderNo": "",
+                        "userId": 0,
+                        "articleId": 0,
+                        "amount": 0,
+                        "status": "",
+                        "payChannel": "",
+                        "payTime": "",
+                        "createTime": "",
+                        "expireTime": ""
+                      }
+                    ],
+                    "total": 0,
+                    "size": 0,
+                    "current": 0,
+                    "orders": [
+                      {
+                        "column": "",
+                        "asc": false
+                      }
+                    ],
+                    "optimizeCountSql": false,
+                    "searchCount": false,
+                    "optimizeJoinOfCountSql": false,
+                    "maxLimit": 0,
+                    "countId": "",
+                    "pages": 0
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/orders/{orderNo}/pay-success": {
+      "post": {
+        "summary": "paySuccess",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "orderNo",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseVoid"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/orders/{orderNo}/pay": {
+      "post": {
+        "summary": "createPayment",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "orderNo",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderPayRequest",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseOrderPaymentVO"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": {
+                    "orderNo": "",
+                    "amount": 0,
+                    "payChannel": "",
+                    "status": "",
+                    "payUrl": "",
+                    "expireTime": ""
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/orders/{orderNo}/pay/balance": {
+      "post": {
+        "summary": "payByBalance",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "orderNo",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseVoid"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/orders/{orderNo}/mock-pay": {
+      "post": {
+        "summary": "mockPay",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "orderNo",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseVoid"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/orders/my": {
+      "get": {
+        "summary": "myOrders",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "pageNum",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": 1,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": 10,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseIPageOrderVO"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": {
+                    "records": [
+                      {
+                        "id": 0,
+                        "orderNo": "",
+                        "userId": 0,
+                        "articleId": 0,
+                        "amount": 0,
+                        "status": "",
+                        "payChannel": "",
+                        "payTime": "",
+                        "createTime": "",
+                        "expireTime": ""
+                      }
+                    ],
+                    "total": 0,
+                    "size": 0,
+                    "current": 0,
+                    "orders": [
+                      {
+                        "column": "",
+                        "asc": false
+                      }
+                    ],
+                    "optimizeCountSql": false,
+                    "searchCount": false,
+                    "optimizeJoinOfCountSql": false,
+                    "maxLimit": 0,
+                    "countId": "",
+                    "pages": 0
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/admin/users": {
+      "get": {
+        "summary": "page",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "pageNo",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": 1,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": 10,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseIPageAdminUserVO"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": {
+                    "records": [
+                      {
+                        "id": 0,
+                        "email": "",
+                        "nickname": "",
+                        "role": "",
+                        "status": "",
+                        "createTime": "",
+                        "lastLoginTime": ""
+                      }
+                    ],
+                    "total": 0,
+                    "size": 0,
+                    "current": 0,
+                    "orders": [
+                      {
+                        "column": "",
+                        "asc": false
+                      }
+                    ],
+                    "optimizeCountSql": false,
+                    "searchCount": false,
+                    "optimizeJoinOfCountSql": false,
+                    "maxLimit": 0,
+                    "countId": "",
+                    "pages": 0
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/admin/users/{id}/status": {
+      "post": {
+        "summary": "updateStatus",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseBoolean"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": false
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/admin/users/{id}/recharge": {
+      "post": {
+        "summary": "recharge",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseBoolean"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": false
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/admin/stats/overview": {
+      "get": {
+        "summary": "管理后台 - 概览统计",
+        "deprecated": false,
+        "description": "返回用户/文章/评论/订单的数量汇总。",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseAdminOverviewVO"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": {
+                    "userCount": 0,
+                    "articleCount": 0,
+                    "commentCount": 0,
+                    "orderCount": 0
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/admin/articles": {
+      "get": {
+        "summary": "管理后台 - 文章分页列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "pageNo",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseIPageArticleListVO"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": {
+                    "records": [
+                      {
+                        "id": 0,
+                        "title": "",
+                        "summary": "",
+                        "coverUrl": "",
+                        "type": "",
+                        "price": 0,
+                        "status": "",
+                        "publishTime": "",
+                        "viewCount": 0,
+                        "likeCount": 0,
+                        "pinned": false,
+                        "pinnedTime": ""
+                      }
+                    ],
+                    "total": 0,
+                    "size": 0,
+                    "current": 0,
+                    "orders": [
+                      {
+                        "column": "",
+                        "asc": false
+                      }
+                    ],
+                    "optimizeCountSql": false,
+                    "searchCount": false,
+                    "optimizeJoinOfCountSql": false,
+                    "maxLimit": 0,
+                    "countId": "",
+                    "pages": 0
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/admin/articles/{id}/publish": {
+      "post": {
+        "summary": "publish",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseVoid"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/admin/articles/{id}/offline": {
+      "post": {
+        "summary": "offline",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseVoid"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/admin/articles/{id}/pin": {
+      "post": {
+        "summary": "pin",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseVoid"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/admin/articles/{id}/unpin": {
+      "post": {
+        "summary": "unpin",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseVoid"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/code": {
+      "post": {
+        "summary": "sendCode",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailCodeRequest",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseBoolean"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": false
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "summary": "注册新用户。",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRegisterDTO",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseBoolean"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": false
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "用户登录。",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLoginDTO",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseString"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": ""
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/users/me": {
+      "get": {
+        "summary": "查询当前登录用户信息。",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseUserProfileVO"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": {
+                    "id": 0,
+                    "email": "",
+                    "nickname": "",
+                    "avatar": "",
+                    "profile": "",
+                    "role": "",
+                    "status": "",
+                    "lastLoginTime": ""
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "更新当前用户资料。",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateProfileDTO",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseBoolean"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": false
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/users/avatar": {
+      "post": {
+        "summary": "upload",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseMapString"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": {
+                    "": ""
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/ai/assistant": {
+      "post": {
+        "summary": "process",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AiRequest",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseAiResponseDTO"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": {
+                    "id": 0,
+                    "scene": "",
+                    "prompt": "",
+                    "response": "",
+                    "tokenUsage": 0,
+                    "createTime": ""
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/ai/assistant/history": {
+      "get": {
+        "summary": "history",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": 10,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListAiResponseDTO"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": [
+                    {
+                      "id": 0,
+                      "scene": "",
+                      "prompt": "",
+                      "response": "",
+                      "tokenUsage": 0,
+                      "createTime": ""
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/common/bing-daily": {
+      "get": {
+        "summary": "获取必应每日一图完整图片 URL。",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseString"
+                },
+                "example": {
+                  "success": false,
+                  "code": 0,
+                  "message": "",
+                  "data": ""
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/files/avatars/{fileName:.+}": {
+      "get": {
+        "summary": "avatar",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "fileName",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseEntityInputStreamResource"
+                },
+                "example": {
+                  "inputStream": {},
+                  "description": "",
+                  "read": false
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CommentTreeVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "userId": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "nickname": {
+            "type": "string",
+            "description": ""
+          },
+          "avatar": {
+            "type": "string",
+            "description": ""
+          },
+          "content": {
+            "type": "string",
+            "description": ""
+          },
+          "createTime": {
+            "type": "string",
+            "description": ""
+          },
+          "likeCount": {
+            "type": "integer",
+            "description": ""
+          },
+          "children": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommentTreeVO",
+              "description": "评论树节点。"
+            },
+            "description": "",
+            "default": "new ArrayList<>()"
+          }
+        }
+      },
+      "ApiResponseListCommentTreeVO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "状态码"
+          },
+          "message": {
+            "type": "string",
+            "description": "文案信息（给前端使用）"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommentTreeVO",
+              "description": "评论树节点。"
+            },
+            "description": "具体数据内容"
+          }
+        }
+      },
+      "ApiResponseLong": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "状态码"
+          },
+          "message": {
+            "type": "string",
+            "description": "文案信息（给前端使用）"
+          },
+          "data": {
+            "type": "integer",
+            "description": "具体数据内容",
+            "format": "int64"
+          }
+        }
+      },
+      "CommentCreateDTO": {
+        "type": "object",
+        "properties": {
+          "articleId": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "parentId": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "content": {
+            "type": "string",
+            "description": "",
+            "maxLength": 1000
+          }
+        },
+        "required": [
+          "articleId",
+          "content"
+        ]
+      },
+      "CommentReplyDTO": {
+        "type": "object",
+        "properties": {
+          "articleId": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "content": {
+            "type": "string",
+            "description": "",
+            "maxLength": 1000
+          }
+        },
+        "required": [
+          "articleId",
+          "content"
+        ]
+      },
+      "ApiResponseVoid": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "状态码"
+          },
+          "message": {
+            "type": "string",
+            "description": "文案信息（给前端使用）"
+          },
+          "data": {
+            "description": "具体数据内容",
+            "type": "null"
+          }
+        }
+      },
+      "ApiResponseString": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "状态码"
+          },
+          "message": {
+            "type": "string",
+            "description": "文案信息（给前端使用）"
+          },
+          "data": {
+            "type": "string",
+            "description": "具体数据内容"
+          }
+        }
+      },
+      "CommentEmojiDTO": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "required": [
+          "content"
+        ]
+      },
+      "ArticleListVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string",
+            "description": ""
+          },
+          "summary": {
+            "type": "string",
+            "description": ""
+          },
+          "coverUrl": {
+            "type": "string",
+            "description": ""
+          },
+          "type": {
+            "type": "string",
+            "description": ""
+          },
+          "price": {
+            "type": "number",
+            "description": ""
+          },
+          "status": {
+            "type": "string",
+            "description": ""
+          },
+          "publishTime": {
+            "type": "string",
+            "description": ""
+          },
+          "viewCount": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "likeCount": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "pinned": {
+            "type": "boolean",
+            "description": ""
+          },
+          "pinnedTime": {
+            "type": "string",
+            "description": ""
+          }
+        }
+      },
+      "OrderItem": {
+        "type": "object",
+        "properties": {
+          "column": {
+            "type": "string",
+            "description": ""
+          },
+          "asc": {
+            "type": "boolean",
+            "description": ""
+          }
+        }
+      },
+      "IPageArticleListVO": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArticleListVO",
+              "description": "文章列表项。"
+            },
+            "description": ""
+          },
+          "total": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "current": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "orders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItem",
+              "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
+            },
+            "description": ""
+          },
+          "optimizeCountSql": {
+            "type": "boolean",
+            "description": ""
+          },
+          "searchCount": {
+            "type": "boolean",
+            "description": ""
+          },
+          "optimizeJoinOfCountSql": {
+            "type": "boolean",
+            "description": ""
+          },
+          "maxLimit": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "countId": {
+            "type": "string",
+            "description": ""
+          },
+          "pages": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ApiResponseIPageArticleListVO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "状态码"
+          },
+          "message": {
+            "type": "string",
+            "description": "文案信息（给前端使用）"
+          },
+          "data": {
+            "$ref": "#/components/schemas/IPageArticleListVO",
+            "description": "具体数据内容"
+          }
+        }
+      },
+      "ArticleDetailVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "authorId": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string",
+            "description": ""
+          },
+          "summary": {
+            "type": "string",
+            "description": ""
+          },
+          "coverUrl": {
+            "type": "string",
+            "description": ""
+          },
+          "categoryId": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "type": {
+            "type": "string",
+            "description": ""
+          },
+          "price": {
+            "type": "number",
+            "description": ""
+          },
+          "status": {
+            "type": "string",
+            "description": ""
+          },
+          "allowComment": {
+            "type": "boolean",
+            "description": ""
+          },
+          "publishTime": {
+            "type": "string",
+            "description": ""
+          },
+          "contentMd": {
+            "type": "string",
+            "description": ""
+          },
+          "contentHtml": {
+            "type": "string",
+            "description": ""
+          },
+          "attachments": {
+            "type": "string",
+            "description": ""
+          },
+          "viewCount": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "likeCount": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "commentCount": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "locked": {
+            "type": "boolean",
+            "description": ""
+          },
+          "purchased": {
+            "type": "boolean",
+            "description": ""
+          },
+          "canManageAttachments": {
+            "type": "boolean",
+            "description": ""
+          },
+          "owner": {
+            "type": "boolean",
+            "description": ""
+          },
+          "pinned": {
+            "type": "boolean",
+            "description": ""
+          },
+          "pinnedTime": {
+            "type": "string",
+            "description": ""
+          }
+        }
+      },
+      "ApiResponseArticleDetailVO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "状态码"
+          },
+          "message": {
+            "type": "string",
+            "description": "文案信息（给前端使用）"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ArticleDetailVO",
+            "description": "具体数据内容"
+          }
+        }
+      },
+      "ApiResponseListArticleListVO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "状态码"
+          },
+          "message": {
+            "type": "string",
+            "description": "文案信息（给前端使用）"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArticleListVO",
+              "description": "文章列表项。"
+            },
+            "description": "具体数据内容"
+          }
+        }
+      },
+      "ArticleCreateDTO": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "",
+            "maxLength": 255
+          },
+          "summary": {
+            "type": "string",
+            "description": "",
+            "maxLength": 512
+          },
+          "coverUrl": {
+            "type": "string",
+            "description": "",
+            "maxLength": 255
+          },
+          "categoryId": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "type": {
+            "type": "string",
+            "description": ""
+          },
+          "price": {
+            "type": "number",
+            "description": ""
+          },
+          "allowComment": {
+            "type": "boolean",
+            "description": ""
+          },
+          "contentMd": {
+            "type": "string",
+            "description": ""
+          },
+          "contentHtml": {
+            "type": "string",
+            "description": ""
+          },
+          "attachments": {
+            "type": "string",
+            "description": ""
+          },
+          "publish": {
+            "type": "boolean",
+            "description": "是否直接发布，默认保存为草稿"
+          }
+        },
+        "required": [
+          "title",
+          "type",
+          "price",
+          "contentMd"
+        ]
+      },
+      "ArticleUpdateDTO": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "",
+            "maxLength": 255
+          },
+          "summary": {
+            "type": "string",
+            "description": "",
+            "maxLength": 512
+          },
+          "coverUrl": {
+            "type": "string",
+            "description": "",
+            "maxLength": 255
+          },
+          "categoryId": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "type": {
+            "type": "string",
+            "description": ""
+          },
+          "price": {
+            "type": "number",
+            "description": ""
+          },
+          "allowComment": {
+            "type": "boolean",
+            "description": ""
+          },
+          "contentMd": {
+            "type": "string",
+            "description": ""
+          },
+          "contentHtml": {
+            "type": "string",
+            "description": ""
+          },
+          "attachments": {
+            "type": "string",
+            "description": ""
+          },
+          "publish": {
+            "type": "boolean",
+            "description": "是否发布，当为 false 时保存为草稿"
+          }
+        },
+        "required": [
+          "title",
+          "contentMd"
+        ]
+      },
+      "AttachmentSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "description": ""
+          },
+          "url": {
+            "type": "string",
+            "description": ""
+          },
+          "restrict": {
+            "type": "boolean",
+            "description": ""
+          },
+          "size": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          }
+        }
+      },
+      "ApiResponseListAttachmentSummary": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "状态码"
+          },
+          "message": {
+            "type": "string",
+            "description": "文案信息（给前端使用）"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AttachmentSummary",
+              "description": "com.bluemsun.blog.module.article.service.model.AttachmentSummary"
+            },
+            "description": "具体数据内容"
+          }
+        }
+      },
+      "InputStream": {
+        "type": "object",
+        "properties": {}
+      },
+      "ResponseEntityInputStreamResource": {
+        "type": "object",
+        "properties": {
+          "inputStream": {
+            "$ref": "#/components/schemas/InputStream",
+            "description": ""
+          },
+          "description": {
+            "type": "string",
+            "description": ""
+          },
+          "read": {
+            "type": "boolean",
+            "description": ""
+          }
+        }
+      },
+      "OrderVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "orderNo": {
+            "type": "string",
+            "description": ""
+          },
+          "userId": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "articleId": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "amount": {
+            "type": "number",
+            "description": ""
+          },
+          "status": {
+            "type": "string",
+            "description": ""
+          },
+          "payChannel": {
+            "type": "string",
+            "description": ""
+          },
+          "payTime": {
+            "type": "string",
+            "description": ""
+          },
+          "createTime": {
+            "type": "string",
+            "description": ""
+          },
+          "expireTime": {
+            "type": "string",
+            "description": ""
+          }
+        }
+      },
+      "ApiResponseOrderVO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "状态码"
+          },
+          "message": {
+            "type": "string",
+            "description": "文案信息（给前端使用）"
+          },
+          "data": {
+            "$ref": "#/components/schemas/OrderVO",
+            "description": "具体数据内容"
+          }
+        }
+      },
+      "OrderCreateDTO": {
+        "type": "object",
+        "properties": {
+          "articleId": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "amount": {
+            "type": "number",
+            "description": ""
+          },
+          "payChannel": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "required": [
+          "articleId",
+          "amount"
+        ]
+      },
+      "OrderPaymentVO": {
+        "type": "object",
+        "properties": {
+          "orderNo": {
+            "type": "string",
+            "description": ""
+          },
+          "amount": {
+            "type": "number",
+            "description": ""
+          },
+          "payChannel": {
+            "type": "string",
+            "description": ""
+          },
+          "status": {
+            "type": "string",
+            "description": ""
+          },
+          "payUrl": {
+            "type": "string",
+            "description": ""
+          },
+          "expireTime": {
+            "type": "string",
+            "description": ""
+          }
+        }
+      },
+      "ApiResponseOrderPaymentVO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "状态码"
+          },
+          "message": {
+            "type": "string",
+            "description": "文案信息（给前端使用）"
+          },
+          "data": {
+            "$ref": "#/components/schemas/OrderPaymentVO",
+            "description": "具体数据内容"
+          }
+        }
+      },
+      "OrderPayRequest": {
+        "type": "object",
+        "properties": {
+          "payChannel": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "required": [
+          "payChannel"
+        ]
+      },
+      "IPageOrderVO": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderVO",
+              "description": "订单视图对象。"
+            },
+            "description": ""
+          },
+          "total": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "current": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "orders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItem",
+              "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
+            },
+            "description": ""
+          },
+          "optimizeCountSql": {
+            "type": "boolean",
+            "description": ""
+          },
+          "searchCount": {
+            "type": "boolean",
+            "description": ""
+          },
+          "optimizeJoinOfCountSql": {
+            "type": "boolean",
+            "description": ""
+          },
+          "maxLimit": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "countId": {
+            "type": "string",
+            "description": ""
+          },
+          "pages": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ApiResponseIPageOrderVO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "状态码"
+          },
+          "message": {
+            "type": "string",
+            "description": "文案信息（给前端使用）"
+          },
+          "data": {
+            "$ref": "#/components/schemas/IPageOrderVO",
+            "description": "具体数据内容"
+          }
+        }
+      },
+      "AdminUserVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "email": {
+            "type": "string",
+            "description": ""
+          },
+          "nickname": {
+            "type": "string",
+            "description": ""
+          },
+          "role": {
+            "type": "string",
+            "description": ""
+          },
+          "status": {
+            "type": "string",
+            "description": ""
+          },
+          "createTime": {
+            "type": "string",
+            "description": ""
+          },
+          "lastLoginTime": {
+            "type": "string",
+            "description": ""
+          },
+          "balance": {
+            "type": "number",
+            "description": ""
+          }
+        }
+      },
+      "IPageAdminUserVO": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdminUserVO",
+              "description": "com.bluemsun.blog.module.admin.vo.AdminUserVO"
+            },
+            "description": ""
+          },
+          "total": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "current": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "orders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItem",
+              "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
+            },
+            "description": ""
+          },
+          "optimizeCountSql": {
+            "type": "boolean",
+            "description": ""
+          },
+          "searchCount": {
+            "type": "boolean",
+            "description": ""
+          },
+          "optimizeJoinOfCountSql": {
+            "type": "boolean",
+            "description": ""
+          },
+          "maxLimit": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "countId": {
+            "type": "string",
+            "description": ""
+          },
+          "pages": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ApiResponseIPageAdminUserVO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "状态码"
+          },
+          "message": {
+            "type": "string",
+            "description": "文案信息（给前端使用）"
+          },
+          "data": {
+            "$ref": "#/components/schemas/IPageAdminUserVO",
+            "description": "具体数据内容"
+          }
+        }
+      },
+      "ApiResponseBoolean": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "状态码"
+          },
+          "message": {
+            "type": "string",
+            "description": "文案信息（给前端使用）"
+          },
+          "data": {
+            "type": "boolean",
+            "description": "具体数据内容"
+          }
+        }
+      },
+      "AdminOverviewVO": {
+        "type": "object",
+        "properties": {
+          "userCount": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "articleCount": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "commentCount": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "orderCount": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          }
+        }
+      },
+      "ApiResponseAdminOverviewVO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "状态码"
+          },
+          "message": {
+            "type": "string",
+            "description": "文案信息（给前端使用）"
+          },
+          "data": {
+            "$ref": "#/components/schemas/AdminOverviewVO",
+            "description": "具体数据内容"
+          }
+        }
+      },
+      "EmailCodeRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "",
+            "format": "email"
+          },
+          "scene": {
+            "type": "string",
+            "description": "",
+            "pattern": "REGISTER|LOGIN"
+          }
+        },
+        "required": [
+          "email",
+          "scene"
+        ]
+      },
+      "UserRegisterDTO": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "",
+            "minLength": 6,
+            "maxLength": 32
+          },
+          "nickname": {
+            "type": "string",
+            "description": ""
+          },
+          "code": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "required": [
+          "email",
+          "password",
+          "nickname",
+          "code"
+        ]
+      },
+      "UserLoginDTO": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "UserProfileVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "email": {
+            "type": "string",
+            "description": ""
+          },
+          "nickname": {
+            "type": "string",
+            "description": ""
+          },
+          "avatar": {
+            "type": "string",
+            "description": ""
+          },
+          "profile": {
+            "type": "string",
+            "description": ""
+          },
+          "role": {
+            "type": "string",
+            "description": ""
+          },
+          "status": {
+            "type": "string",
+            "description": ""
+          },
+          "lastLoginTime": {
+            "type": "string",
+            "description": ""
+          },
+          "balance": {
+            "type": "number",
+            "description": ""
+          }
+        }
+      },
+      "ApiResponseUserProfileVO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "状态码"
+          },
+          "message": {
+            "type": "string",
+            "description": "文案信息（给前端使用）"
+          },
+          "data": {
+            "$ref": "#/components/schemas/UserProfileVO",
+            "description": "具体数据内容"
+          }
+        }
+      },
+      "UserUpdateProfileDTO": {
+        "type": "object",
+        "properties": {
+          "nickname": {
+            "type": "string",
+            "description": "",
+            "maxLength": 32
+          },
+          "avatar": {
+            "type": "string",
+            "description": "",
+            "maxLength": 255
+          },
+          "profile": {
+            "type": "string",
+            "description": "",
+            "maxLength": 512
+          }
+        }
+      },
+      "MapString": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          }
+        }
+      },
+      "ApiResponseMapString": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "状态码"
+          },
+          "message": {
+            "type": "string",
+            "description": "文案信息（给前端使用）"
+          },
+          "data": {
+            "$ref": "#/components/schemas/MapString",
+            "description": "具体数据内容"
+          }
+        }
+      },
+      "AiResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          },
+          "scene": {
+            "type": "string",
+            "description": ""
+          },
+          "prompt": {
+            "type": "string",
+            "description": ""
+          },
+          "response": {
+            "type": "string",
+            "description": ""
+          },
+          "tokenUsage": {
+            "type": "integer",
+            "description": ""
+          },
+          "createTime": {
+            "type": "string",
+            "description": ""
+          }
+        }
+      },
+      "ApiResponseAiResponseDTO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "状态码"
+          },
+          "message": {
+            "type": "string",
+            "description": "文案信息（给前端使用）"
+          },
+          "data": {
+            "$ref": "#/components/schemas/AiResponseDTO",
+            "description": "具体数据内容"
+          }
+        }
+      },
+      "AiRequest": {
+        "type": "object",
+        "properties": {
+          "scene": {
+            "type": "string",
+            "description": "",
+            "pattern": "POLISH|EXTEND|SUMMARY|TRANSLATE|CONTINUE"
+          },
+          "content": {
+            "type": "string",
+            "description": "",
+            "maxLength": 2000
+          },
+          "extra": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "required": [
+          "scene",
+          "content"
+        ]
+      },
+      "ApiResponseListAiResponseDTO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "状态码"
+          },
+          "message": {
+            "type": "string",
+            "description": "文案信息（给前端使用）"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiResponseDTO",
+              "description": "com.bluemsun.blog.module.ai.dto.AiResponseDTO"
+            },
+            "description": "具体数据内容"
+          }
+        }
+      }
+    },
+    "securitySchemes": {}
+  },
+  "servers": [],
+  "security": []
+}
